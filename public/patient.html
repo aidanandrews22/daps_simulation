@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Before and After</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img id="header" src="assets/logo.png" alt="Logo">
+    </header>
+
+    <div class="centered">
+        <h1>Before and After</h1>
+        <div class="image-container">
+            <img id="before-image" src="" alt="Before Image">
+            <img id="after-image" src="" alt="After Image"> 
+        </div>
+        <div class="side-by-side-container" style="display: none;">
+            <img id="side-before-image" src="" alt="Before Image">
+            <img id="side-after-image" src="" alt="After Image">
+        </div>
+        <div class="buttons">
+            <button id="save">Save Photo</button>
+            <button id="toggle-button">Toggle Before/After</button>
+            <button id="send">Send Photo To Me</button>
+            <button id="save-pdf">Save as PDF</button>
+        </div>
+        <div class="switch-container">
+            <label class="switch">
+                <input type="checkbox" id="view-switch">
+                <span class="slider round"></span>
+            </label>
+            <span>Side by Side View</span>
+        </div>
+    </div>
+
+    <div id="send-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <p>Enter your email:</p>
+            <input type="text" id="contact-info" placeholder="email">
+            <button id="send-confirm">Send</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+    <footer>
+        <p>© <script>document.write(new Date().getFullYear());</script> Dr. Andrews Plastic Surgery</p>
+    </footer>
+</body>
+</html>

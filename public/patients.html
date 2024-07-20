@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Images</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header>
+        <img id="header" src="assets/logo.png" alt="Logo">
+    </header>
+    <div class="title">
+        <h1>Patient Images</h1>
+    </div>
+    <div class="centered">
+        <div id="patient-containers">
+            <!-- Patient containers will be dynamically added here -->
+        </div>
+        <div class="upload-new">
+            <h2>Upload New Before Image</h2>
+            <form id="new-patient-form">
+                <input type="text" id="new-patient-name" name="patient-name" placeholder="Patient Name" required>
+                <input type="file" id="new-before-image" name="before-image" accept="image/*" required>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+     <footer>
+      <p>© <script>document.write(new Date().getFullYear());</script> Dr. Andrews Plastic Surgery</p>
+    </footer>
+</body>
+</html>

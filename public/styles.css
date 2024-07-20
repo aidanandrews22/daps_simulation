@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Meno+Banner:wght@400;700&family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@1,700&family=Inspector+Script&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #FFFFFF;
+    color: #363636;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+h1 {
+    font-family: 'Meno Banner', serif;
+    color: #ccb379;
+}
+
+h3 {
+  padding-right: 50px;
+}
+
+button {
+    display: inline-block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Playfair Display', serif;
+    color: #f7f1e4;
+    background-color: #b78d4a;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    width: 200px;
+}
+
+button:hover {
+    background-color: #ccb379;
+}
+
+header {
+    width: 100%;
+    background-color: #FFFFFF;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: #00000063 0px 3px 6px;
+}
+
+header img {
+    width: 150px;
+}
+
+.centered {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.patient-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.patient-images {
+    display: flex;
+    align-items: center;
+}
+
+.patient-images img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.upload-after {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-after .img-area {
+    width: 200px;
+    height: 200px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+}
+
+.upload-after .img-area:hover {
+    background-color: #d0d0d0;
+}
+
+.upload-after .img-area .icon {
+    font-size: 50px;
+    color: #888;
+}
+
+.upload-after .img-area p {
+    color: #888;
+    margin-top: 10px;
+}
+
+.upload-new {
+    margin-top: 40px;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+  margin-bottom: 200px;
+}
+
+.patient-link {
+    font-size: 1.17em;
+    font-weight: bold;
+    color: #ccb379;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.patient-link:hover {
+    text-decoration: underline;
+}
+
+.patient-link a {
+    margin-right: 20px;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.patient-link a:hover {
+    text-decoration: underline;
+}
+
+.image-container {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 10px;
+}
+
+#before-image, #after-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;    height: 100%;
+    transition: opacity 3s ease;
+    object-fit: cover;
+}
+
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.side-by-side-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+.side-by-side-container img {
+    width: 48%;
+    height: auto;
+    object-fit: cover;
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.switch-container span {
+    margin-left: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #b78d4a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+#save-pdf {
+    background-color: #b78d4a;
+}
+
+#save-pdf:hover {
+    background-color: #ccb379;
+}
