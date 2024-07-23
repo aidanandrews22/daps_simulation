@@ -1,0 +1,22 @@
+*::before,
+*::after,
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat-Regular';
+}
+
+@font-face {
+  font-family: 'Montserrat-Regular';
+  src: url('../fonts/Montserrat-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Montserrat-Regular-SemiBold';
+  src: url('../fonts/Montserrat-SemiBold.ttf');
+}
+
+a {
+  @apply decoration-none;
+}
