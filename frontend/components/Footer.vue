@@ -40,36 +40,58 @@ function initMap() {
 </script>
 
 <template>
-  <div class="container flex flex-col items-center p-8">
-    <header class="text-center mb-8">
-      <img src="@/assets/img/footer-logo.png" alt="Logo" class="w-24 mb-4" />
-      <h1 class="text-4xl font-bold">Dr. Andrews Plastic Surgery</h1>
+  <div class="footer-content pt-30">
+    <!-- Header -->
+    <header class="footer-header max-w-6xl px-40 py-14 mx-auto flex flex-col lg:flex-row justify-between items-center text-center lg:text-justify">
+      <div class="col-1 flex flex-col gap-y-14">
+        <img src="@/assets/img/footer-logo.png" />
+        <div>
+          <h1 class="text-2xl" style="font-family: Montserrat-Regular-SemiBold">AVERAGE RATING</h1>
+          <div class="flex justify-center lg:justify-start space-x-1 text-yellow-400 text-3xl">
+            <span class="star" v-for="i in 5" :key="i">&#9733;</span>
+            <span class="text-black font-700 text-2xl">4.8</span>
+          </div>
+          <div class="flex justify-center lg:justify-start gap-2">
+            <div class="i-mdi-wechat text-blue text-3xl"></div>
+            <span class="text-lg">339 Reviews</span>
+          </div>
+        </div>
+        <a class="text-primary hover:text-blue-4 transition-all transition-duration-700" href="https://www.drandrewsplasticsurgery.com/our-reviews/" traget="blank">Read Testimonials >> </a>
+        <SocialIcons class="flex justify-center lg:justify-start" />
+      </div>
+      <div class="col-2 flex flex-col gap-y-7 mt-6 lg:mt-0">
+        <div>
+          <h1>PHONE</h1>
+          <a href="#">319.800.6877</a>
+        </div>
+        <div>
+          <h1>ADDRESS</h1>
+          <a
+            target="blank"
+            href="https://www.google.com/maps/place/Dr.+Andrews+Plastic+Surgery/@41.675111,-91.5795316,15z/data=!4m2!3m1!1s0x0:0xcbf6c27b124bc743?sa=X&ved=2ahUKEwim4o-FsJPeAhWHilQKHYqsDdQQ_BIwDXoECAcQCw"
+            >1100 5th St #210 <br />
+            Coralville, IA 52241
+          </a>
+        </div>
+        <div>
+          <h1>HOURS</h1>
+          <span>M–F: 8:00AM–4:00PM</span>
+        </div>
+      </div>
+      <div class="col-3 flex flex-col gap-y-4.5 mt-6 lg:mt-0">
+        <h1>QUICKLINKS</h1>
+        <a target="blank" href="https://www.drandrewsplasticsurgery.com/contact-us/">Contact Us</a>
+        <a target="blank" href="https://www.drandrewsplasticsurgery.com/gallery/">Gallery</a>
+        <a target="blank" href="https://www.drandrewsplasticsurgery.com/patient-resources/financing/">Financing</a>
+        <a target="blank" href="https://www.drandrewsplasticsurgery.com/blog/">Blog</a>
+        <a target="blank" href="https://www.drandrewsplasticsurgery.com/patient-resources/specials/">Specials</a>
+        <a target="blank" href="https://squareup.com/gift/15YZSR168YTVA/order">Gift Cards</a>
+      </div>
     </header>
-    <div class="rating text-center mb-8">
-      <p class="text-lg font-medium">AVERAGE RATING</p>
-      <div class="stars text-yellow-400 text-2xl">
-        <span class="star" v-for="i in 5" :key="i">&#9733;</span>
-      </div>
-      <p class="text-4xl font-bold mt-2">4.8</p>
-      <p class="text-sm text-gray-500">(339 Reviews)</p>
-      <a href="#" class="text-blue-500 hover:underline">Read Testimonials &gt;&gt;</a>
-    </div>
-    <div class="contact text-center mb-8">
-      <p class="font-bold">PHONE</p>
-      <p>319.800.6877</p>
-      <p class="font-bold mt-4">ADDRESS</p>
-      <p>1100 5th St #210, Coralville, IA 52241</p>
-      <p class="font-bold mt-4">HOURS</p>
-      <p>M-F: 8:00AM-4:00PM</p>
-      <div class="social flex justify-center space-x-4 mt-4">
-        <a href="#" class="text-gray-700"><i class="fab fa-facebook"></i></a>
-        <a href="#" class="text-gray-700"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="text-gray-700"><i class="fab fa-youtube"></i></a>
-        <a href="#" class="text-gray-700"><i class="fab fa-podcast"></i></a>
-      </div>
-    </div>
-    <div class="map-container relative mb-8 w-full max-w-4xl">
-      <div class="info-card absolute top-4 left-4 bg-white shadow-lg p-4 rounded-lg z-10">
+
+    <!-- Map -->
+    <div class="relative mb-0 w-full">
+      <div class="info-card absolute top-2 left-2 bg-white shadow-lg p-4 rounded-lg z-10">
         <h2 class="text-lg font-bold">Dr. Andrews Plastic Surgery</h2>
         <p>1100 5th St #210, Coralville, IA 52241</p>
         <p class="text-lg font-semibold flex items-center">
@@ -79,9 +101,16 @@ function initMap() {
           </span>
           <span class="ml-2 text-sm text-blue-500">(333 reviews)</span>
         </p>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=1100+5th+St+%23210%2C+Coralville%2C+IA+52241" class="text-blue-500 hover:underline">Directions</a>
+        <a
+          target="blank"
+          href="https://www.google.com/maps/dir//Dr.+Andrews+Plastic+Surgery+1100+5th+St+%23210+Coralville,+IA+52241/@41.675113,-91.579521,14z/data=!4m5!4m4!1m0!1m2!1m1!1s0x87e4f74a3779e921:0xcbf6c27b124bc743"
+          class="text-blue-500 hover:underline"
+          >Directions</a
+        >
         <br />
-        <a href="https://www.google.com/maps/search/?api=1&query=1100+5th+St+%23210%2C+Coralville%2C+IA+52241" class="text-blue-500 hover:underline">View larger map</a>
+        <a target="blank" href="https://www.google.com/maps?ll=41.675113,-91.579521&z=14&t=m&hl=en&gl=US&mapclient=embed&cid=14697148267813914435" class="text-blue-500 hover:underline"
+          >View larger map</a
+        >
       </div>
       <div
         id="map"
@@ -91,31 +120,61 @@ function initMap() {
         aria-hidden="false"
         tabindex="0"></div>
     </div>
-    <footer class="text-center text-sm text-gray-500">
-      <p>&copy; 2024 Dr. Andrews Plastic Surgery</p>
-      <p>
-        <a href="#" class="text-blue-500 hover:underline">Privacy Policy</a> | <a href="#" class="text-blue-500 hover:underline">Cookie Policy</a> |
-        <a href="#" class="text-blue-500 hover:underline">Accessibility</a> | <a href="#" class="text-blue-500 hover:underline">Sitemap</a> |
-        <a href="#" class="text-blue-500 hover:underline">HIPAA Policy</a>
-      </p>
+
+    <!-- Copyright -->
+    <footer class="lg:shadow-md py-5 mb-20">
+      <div class="flex flex-col lg:flex-row gap-y-4 justify-between max-w-300 mx-auto items-center text-sm">
+        <span>© 2024 Dr. Andrews Plastic Surgery</span>
+        <div class="copyright-section">
+          <a href="https://www.drandrewsplasticsurgery.com/privacy-policy/" target="_blank">Privacy Policy</a>
+          |
+          <a href="https://www.drandrewsplasticsurgery.com/cookie-policy/" target="_blank">Cookie Policy</a>
+          |
+          <a href="https://www.drandrewsplasticsurgery.com/accessibility-statement/" target="_blank">Accessibility</a>
+          |
+          <a href="https://www.drandrewsplasticsurgery.com/sitemap/" target="_blank">Sitemap</a>
+          |
+          <a href="https://www.drandrewsplasticsurgery.com/wp-content/uploads/2023/11/HIPAA-Policy_Dr.-Andrews-Plastic-Surgery.pdf" target="_blank">HIPAA Policy</a>
+        </div>
+        <div class="items-center flex">
+          <span>Plastic Surgery Website by</span>
+          <a href="https://dlmconversion.com/" target="blank"><img src="@/assets/img/dlm.png" alt="DLM" /></a>
+        </div>
+      </div>
     </footer>
+
+    <!-- Contact Us Fixed Button -->
+    <a
+      class="flex lg:hidden position-fixed bottom-0 w-full justify-between items-center bg-[#CCB379] text-white text-md font-600 py-3"
+      href="https://www.drandrewsplasticsurgery.com/contact-us/"
+      target="_blank">
+      <span class="flex-1 text-center">CONTACT US</span>
+      |
+      <div class="i-mdi-call px-20 text-3xl"></div>
+    </a>
   </div>
 </template>
 
 <style scoped lang="scss">
-.stars {
-  @apply flex justify-center space-x-1;
+.footer-header {
+  .col-2,
+  .col-3 {
+    h1 {
+      @apply text-size-lg;
+      font-family: 'Montserrat-Regular-SemiBold';
+    }
+
+    a {
+      @apply text-primary hover:text-black transition-all transition-duration-400;
+    }
+  }
+
+  .col-2 h1 {
+    @apply mb-4;
+  }
 }
 
-.social a {
-  @apply text-lg;
-}
-
-.map-container {
-  @apply relative mb-8 w-full max-w-4xl;
-}
-
-.info-card {
-  @apply absolute top-4 left-4 bg-white shadow-lg p-4 rounded-lg z-10;
+.copyright-section a {
+  @apply text-black hover:text-primary transition-alll transition-duration-400;
 }
 </style>
