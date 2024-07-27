@@ -2,7 +2,7 @@
   <div class="position-fixed z-99 w-full bg-white" style="box-shadow: #00000063 0px 3px 6px">
     <nav class="flex justify-between items-center px-16 max-w-6xl mx-auto py-3 lg:py-5">
       <div class="hidden lg:block">
-        <a href="#"><img src="@/assets/img/logo.png" alt="" /></a>
+        <NuxtLink to="/"><img src="@/assets/img/logo.png" alt="" /></NuxtLink>
       </div>
       <a
         class="block lg:hidden i-mdi-location text-3xl text-dark"

@@ -8,7 +8,6 @@ const hospitalLocation = {
 }
 
 onMounted(() => {
-  console.log('API Key:', googleMapsApiKey) // Debug line
   loadMapScript()
 })
 

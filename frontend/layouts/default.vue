@@ -1,8 +1,7 @@
 <template>
-  <div class="app">
+  <div>
     <Navbar />
+    <NuxtPage class="pt-35" />
     <Footer />
   </div>
 </template>
-
-<style scoped lang="scss"></style>
