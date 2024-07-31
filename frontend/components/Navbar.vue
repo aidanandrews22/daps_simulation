@@ -21,7 +21,7 @@
         <a href="#"><img src="@/assets/img/logo.png" alt="" /></a>
       </div>
       <div>
-        <a class="hidden lg:block" href="https://www.drandrewsplasticsurgery.com/contact-us/" target="blank"><button class="btn-primary">CONTACT US</button> </a>
+        <a class="hidden lg:block" href="https://www.drandrewsplasticsurgery.com/contact-us/" target="blank"><button class="btn-primary btn">CONTACT US</button> </a>
       </div>
     </nav>
   </div>

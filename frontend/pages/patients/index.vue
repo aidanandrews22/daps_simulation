@@ -1,26 +1,31 @@
-<script setup>
-const patients = ref([
-  {
-    name: 'Aidan Andrews',
-    beforeImg: null,
-    afterImg: 'https://assets.entrepreneur.com/content/3x2/2000/1680813141-GettyImages-850154658copy.jpg?format=pjeg&auto=webp&crop=16:9&width=675&height=380',
-    notes: '',
-  },
-  {
-    name: 'Ali Quliyev',
-    beforeImg: 'https://assets.entrepreneur.com/content/3x2/2000/1680813141-GettyImages-850154658copy.jpg?format=pjeg&auto=webp&crop=16:9&width=675&height=380',
-    afterImg: null,
-    notes: '',
-  },
-])
-</script>
-
 <template>
   <div>
-    <div v-for="patient in patients" :key="patient.name">
-      <div></div>
-    </div>
+    <h1>Patients List</h1>
+    <NuxtLink class="btn-primary btn" to="/patients/add">New</NuxtLink>
+    <div v-if="loading">Loading patients...</div>
+    <ul v-else>
+      <li v-for="patient in patients" :key="patient.id">
+        <NuxtLink :to="`/patients/${patient.id}`"> {{ patient.name }} {{ patient }}</NuxtLink>
+      </li>
+    </ul>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useFirestore } from '~/composables/useFirestore'
+
+const { getDocuments } = useFirestore()
+const patients = ref([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    patients.value = await getDocuments('patients')
+  } catch (error) {
+    console.error('Error fetching patients:', error)
+  } finally {
+    loading.value = false
+  }
+})
+</script>

@@ -25,15 +25,15 @@ function loadMapScript() {
 }
 
 function initMap() {
-  const map = new google.maps.Map(document.querySelector('#map'), {
+  const map = new google.maps.Map(document.getElementById('map'), {
     center: hospitalLocation,
-    zoom: 15,
+    zoom: 14,
   })
 
-  new google.maps.Marker({
+  const marker = new google.maps.Marker({
     position: hospitalLocation,
-    map,
-    title: 'Dr. Andrews Plastic Surgery',
+    map: map,
+    title: 'Hello World!',
   })
 }
 </script>
