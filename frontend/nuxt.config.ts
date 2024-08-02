@@ -5,8 +5,6 @@ import * as path from 'path'
 // Load environment variables from .env file
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
-console.log('GOOGLE_MAPS_API_KEY:', process.env.GOOGLE_MAPS_API_KEY) // Add this line to debug
-
 export default {
   head: {
     script: [

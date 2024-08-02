@@ -113,15 +113,14 @@ const changeImgAndSaveToDb = async (payload) => {
 </script>
 
 <template>
-  <div>
-    <button class="btn-primary btn" @click="$router.back()">Go back</button>
-    <div v-if="patientLoading">
-      <h1 class="text-center">Loading...</h1>
-    </div>
-    <div class="patient" v-else>
-      <h1 class="text-center mb-5">{{ patient.name }}</h1>
-      <div class="flex border-black border-solid border-0.5">
-        <div class="before-container border-black border-0.5 border-r-solid">
+  <div class="page">
+    <GoBackButton />
+    <LoadingStatus v-if="patientLoading" />
+
+    <div class="patient mt-5" v-else>
+      <span class="name">{{ patient.name }}</span>
+      <div class="image-container-wrapper">
+        <div class="before-container border-black border-0.5 border-r-solid;">
           <img :src="computedBeforeImg" alt="Before" />
           <CustomFileUpload @filePassToParent="changeImgAndSaveToDb" imgType="before" class="file-upload" :isLoading="uploadFileIsLoading" />
         </div>
@@ -159,22 +158,26 @@ const changeImgAndSaveToDb = async (payload) => {
 .patient {
   @apply flex flex-col max-w-7xl mx-auto relative;
 
-  .before-container,
-  .after-container {
-    @apply relative flex-1 group;
+  .image-container-wrapper {
+    @apply flex border-black border-solid border-0.5;
 
-    img {
-      @apply w-full h-full object-cover transition-opacity duration-300 ease-in-out;
-    }
+    .before-container,
+    .after-container {
+      @apply relative flex-1 group;
 
-    &:hover {
       img {
-        @apply opacity-50;
+        @apply w-full h-full object-cover transition-opacity duration-300 ease-in-out;
       }
-    }
 
-    &:hover .file-upload > button.upload-btn {
-      @apply opacity-100;
+      &:hover {
+        img {
+          @apply opacity-50;
+        }
+      }
+
+      &:hover .file-upload > button.upload-btn {
+        @apply opacity-100;
+      }
     }
   }
 }
@@ -189,18 +192,6 @@ const changeImgAndSaveToDb = async (payload) => {
 
   textarea:disbaled {
     @apply text-white;
-  }
-}
-
-.before-after-text {
-  @apply flex text-center;
-
-  h1 {
-    @apply font-400 border-t-none text-2xl flex-1 py-2 border-solid border-black border-1;
-  }
-
-  h1:first-child {
-    @apply border-r-none;
   }
 }
 </style>

@@ -24,3 +24,25 @@ body {
 a {
   @apply decoration-none;
 }
+
+.page {
+  @apply max-w-7xl mx-auto;
+}
+
+.patient {
+  .name {
+    @apply text-center border-black border-solid border-1 border-b-none text-3xl font-bold py-2;
+  }
+
+  .before-after-text {
+    @apply flex text-center;
+
+    h1 {
+      @apply font-400 border-t-none text-2xl flex-1 py-2 border-solid border-black border-1;
+    }
+
+    h1:first-child {
+      @apply border-r-none;
+    }
+  }
+}

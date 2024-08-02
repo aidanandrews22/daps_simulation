@@ -29,8 +29,6 @@ const turnOnOffFileDownloadStatus = (filetype, boolean) => {
   }
 }
 
-const htmlContent = ref('')
-
 const exportPDF = async () => {
   loadingStatuses.value.pdf = true
 
@@ -135,7 +133,6 @@ const downloadImage = async (imageUrl, filetype) => {
 
 <template>
   <div>
-    <div ref="preview" v-html="htmlContent"></div>
     <div class="flex justify-center mt-4 gap-x-2">
       <button v-if="loadingStatuses.pdf" class="btn btn-primary btn-icon btn-disabled" disabled>
         <span>PDF exporting</span>
