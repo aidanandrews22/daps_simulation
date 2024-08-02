@@ -86,7 +86,7 @@ const addPatient = async () => {
     <button class="btn-primary btn" @click="$router.back()">Go back</button>
 
     <form @submit.prevent="addPatient">
-      <input v-model="patientName" placeholder="Patient Name" :disabled="isLoading" />
+      <input required v-model="patientName" placeholder="Patient Name" :disabled="isLoading" />
       <input type="file" @change="handleBeforeImage" accept="image/*" :disabled="isLoading" />
       <input type="file" @change="handleAfterImage" accept="image/*" :disabled="isLoading" />
       <button type="submit" :disabled="isLoading">

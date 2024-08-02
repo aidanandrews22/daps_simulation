@@ -109,8 +109,6 @@ const changeImgAndSaveToDb = async (payload) => {
   }
 
   uploadFileIsLoading.value = false
-
-  console.log(uploadFileIsLoading.value)
 }
 </script>
 
@@ -121,7 +119,7 @@ const changeImgAndSaveToDb = async (payload) => {
       <h1 class="text-center">Loading...</h1>
     </div>
     <div class="patient" v-else>
-      <h1 class="text-center mb-5">Single Patient: {{ patient.name }}</h1>
+      <h1 class="text-center mb-5">{{ patient.name }}</h1>
       <div class="flex border-black border-solid border-0.5">
         <div class="before-container border-black border-0.5 border-r-solid">
           <img :src="computedBeforeImg" alt="Before" />
@@ -137,11 +135,13 @@ const changeImgAndSaveToDb = async (payload) => {
         <h1>After</h1>
       </div>
 
+      <DownloadButtons :uploadFileIsLoading="uploadFileIsLoading" :beforeImgUrl="patient.beforeImg" :afterImgUrl="patient.afterImg" />
+
       <div class="comment-section mt-8">
         <h2 class="text-xl font-bold mb-2">Patient Notes</h2>
         <textarea :disabled="commentLoading" v-model="comment" ref="notesRef" placeholder="Enter notes about the patient here..."></textarea>
         <div class="mt-2 flex gap-x-4">
-          <button v-if="commentLoading" class="btn:disabled btn-primary btn btn-icon" disabled>
+          <button v-if="commentLoading" class="btn-disabled btn-primary btn btn-icon" disabled>
             <span>Saving</span>
             <div class="i-mdi-loading animate-spin"></div>
           </button>
