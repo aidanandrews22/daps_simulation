@@ -11,6 +11,10 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @font-face {
   font-family: 'Montserrat-Regular';
   src: url('../fonts/Montserrat-Regular.ttf');
@@ -26,23 +30,66 @@ a {
 }
 
 .page {
-  @apply max-w-7xl mx-auto;
+  @apply w-full mx-auto px-3;
 }
 
 .patient {
+  @apply w-full flex flex-col mx-auto relative;
+
   .name {
-    @apply text-center border-black border-solid border-1 border-b-none text-3xl font-bold py-2;
+    @apply text-center border-black border-solid border-1 border-b-none text-xl md:text-2xl lg:text-3xl font-bold py-2;
   }
 
   .before-after-text {
-    @apply flex text-center;
+    @apply flex text-center invisible md:visible;
 
     h1 {
-      @apply font-400 border-t-none text-2xl flex-1 py-2 border-solid border-black border-1;
+      @apply font-400 border-t-none text-lg lg:text-xl flex-1 py-2 border-solid border-black border-1;
     }
 
     h1:first-child {
       @apply border-r-none;
     }
+  }
+
+  .image-container-wrapper {
+    @apply w-full flex flex-col md:flex-row border-black border-solid border-0.5;
+
+    .before-container,
+    .after-container {
+      @apply max-h-xl relative flex-1 group;
+
+      img {
+        @apply w-full h-100 md:h-full max-h-2xl object-cover transition-opacity duration-300 ease-in-out;
+      }
+
+      &:hover {
+        img {
+          @apply opacity-50;
+        }
+      }
+
+      &:hover .file-upload > button.upload-btn {
+        @apply opacity-100;
+      }
+    }
+  }
+}
+
+.page,
+.patient {
+  @apply lg:w-4.5xl xl:w-7xl;
+}
+
+.comment-section {
+  @apply bg-gray-100 p-4 rounded-md;
+
+  textarea {
+    min-height: 100px;
+    @apply w-full p-2 border border-gray-300 rounded-md resize-none;
+  }
+
+  textarea:disbaled {
+    @apply text-white;
   }
 }

@@ -7,6 +7,8 @@ const patients = ref([])
 const loading = ref(true)
 
 onMounted(async () => {
+  scrollToTop()
+
   try {
     loading.value = true
     patients.value = await getDocuments('patients')
@@ -15,6 +17,10 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+})
+
+watch(loading, () => {
+  scrollToTop()
 })
 </script>
 
@@ -29,21 +35,20 @@ onMounted(async () => {
     <LoadingStatus v-if="loading" />
     <ul v-else class="mt-5 flex flex-col gap-y-10">
       <li v-for="patient in patients" class="patient" :key="patient.id">
-        <span class="name">{{ patient.name }}</span>
+        <span class="name">{{ patient.firstName }} {{ patient.lastName }}</span>
 
-        <div class="image-container-wrapper">
-          <div class="after-container">
-            <img :src="patient.beforeImg" alt="" />
-          </div>
-
+        <NuxtLink :to="`/patients/${patient.id}`" class="image-container-wrapper">
           <div class="before-container">
-            <img :src="patient.afterImg" alt="" />
+            <img :src="computedBeforeOrAfterImg(patient.beforeImg, 'before')" />
           </div>
-        </div>
+          <div class="after-container">
+            <img :src="computedBeforeOrAfterImg(patient.afterImg, 'after')" />
+          </div>
 
-        <NuxtLink :to="`/patients/${patient.id}`" class="details-button">
-          <span>Go to details</span>
-          <div class="i-mdi:arrow-right"></div>
+          <button class="details-button">
+            <span>Go to details</span>
+            <div class="i-mdi:arrow-right"></div>
+          </button>
         </NuxtLink>
 
         <div class="before-after-text">

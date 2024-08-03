@@ -1,64 +1,24 @@
 <script setup>
 import { useFirestore } from '~/composables/useFirestore'
-import afterImgDefault from '@/assets/img/after.png'
-import beforeImgDefault from '@/assets/img/before.png'
+import { computedBeforeOrAfterImg } from '~/composables/publicVariables'
 
 const route = useRoute()
 const { getDocument, updateDocument, uploadImage } = useFirestore()
 const patient = ref({})
 const patientLoading = ref(true)
-const commentLoading = ref(false)
-const comment = ref('')
-const notesRef = ref(null)
 const uploadFileIsLoading = ref(false)
 
-watch(notesRef, () => {
-  notesRef.value.setAttribute('style', 'height:' + notesRef.value.scrollHeight + 'px;overflow-y:hidden;')
-  notesRef.value.addEventListener(
-    'input',
-    function (e) {
-      if (e.target.value != '') {
-        this.style.height = 'auto'
-        this.style.height = this.scrollHeight + 'px'
-      } else {
-        this.style.height = ''
-      }
-    },
-    false
-  )
-})
-
 onMounted(async () => {
+  scrollToTop()
+
   try {
     patient.value = await getDocument('patients', route.params.id)
-    comment.value = patient.value.comment || ''
   } catch (error) {
     console.error('Error fetching patient:', error)
   } finally {
     patientLoading.value = false
   }
 })
-
-const computedBeforeImg = computed(() => {
-  return patient.value.beforeImg ? patient.value.beforeImg : beforeImgDefault
-})
-
-const computedAfterImg = computed(() => {
-  return patient.value.afterImg ? patient.value.afterImg : afterImgDefault
-})
-
-const saveComment = async () => {
-  try {
-    commentLoading.value = true
-    await updateDocument('patients', route.params.id, { comment: comment.value })
-    alert('Comment saved successfully!')
-  } catch (error) {
-    console.error('Error saving comment:', error)
-    alert('Failed to save comment. Please try again.')
-  } finally {
-    commentLoading.value = false
-  }
-}
 
 const changeImgAndSaveToDb = async (payload) => {
   let beforeImgURL = patient.value.beforeImg
@@ -115,17 +75,18 @@ const changeImgAndSaveToDb = async (payload) => {
 <template>
   <div class="page">
     <GoBackButton />
+
     <LoadingStatus v-if="patientLoading" />
 
     <div class="patient mt-5" v-else>
-      <span class="name">{{ patient.name }}</span>
+      <span class="name">{{ patient.firstName }} {{ patient.lastName }}</span>
       <div class="image-container-wrapper">
         <div class="before-container border-black border-0.5 border-r-solid;">
-          <img :src="computedBeforeImg" alt="Before" />
+          <img :src="computedBeforeOrAfterImg(patient.beforeImg, 'before')" alt="Before" />
           <CustomFileUpload @filePassToParent="changeImgAndSaveToDb" imgType="before" class="file-upload" :isLoading="uploadFileIsLoading" />
         </div>
         <div class="after-container">
-          <img :src="computedAfterImg" alt="After" />
+          <img :src="computedBeforeOrAfterImg(patient.afterImg, 'after')" alt="After" />
           <CustomFileUpload @filePassToParent="changeImgAndSaveToDb" imgType="after" class="file-upload" :isLoading="uploadFileIsLoading" />
         </div>
       </div>
@@ -136,62 +97,9 @@ const changeImgAndSaveToDb = async (payload) => {
 
       <DownloadButtons :uploadFileIsLoading="uploadFileIsLoading" :beforeImgUrl="patient.beforeImg" :afterImgUrl="patient.afterImg" />
 
-      <div class="comment-section mt-8">
-        <h2 class="text-xl font-bold mb-2">Patient Notes</h2>
-        <textarea :disabled="commentLoading" v-model="comment" ref="notesRef" placeholder="Enter notes about the patient here..."></textarea>
-        <div class="mt-2 flex gap-x-4">
-          <button v-if="commentLoading" class="btn-disabled btn-primary btn btn-icon" disabled>
-            <span>Saving</span>
-            <div class="i-mdi-loading animate-spin"></div>
-          </button>
-          <button v-else class="btn btn-primary btn btn-icon" @click="saveComment">
-            <span>Save</span>
-            <div class="i-mdi-tick"></div>
-          </button>
-        </div>
-      </div>
+      <CommentSection :patient="patient" />
     </div>
   </div>
 </template>
 
-<style lang="scss">
-.patient {
-  @apply flex flex-col max-w-7xl mx-auto relative;
-
-  .image-container-wrapper {
-    @apply flex border-black border-solid border-0.5;
-
-    .before-container,
-    .after-container {
-      @apply relative flex-1 group;
-
-      img {
-        @apply w-full h-full object-cover transition-opacity duration-300 ease-in-out;
-      }
-
-      &:hover {
-        img {
-          @apply opacity-50;
-        }
-      }
-
-      &:hover .file-upload > button.upload-btn {
-        @apply opacity-100;
-      }
-    }
-  }
-}
-
-.comment-section {
-  @apply bg-gray-100 p-4 rounded-md;
-
-  textarea {
-    min-height: 100px;
-    @apply w-full p-2 border border-gray-300 rounded-md resize-none;
-  }
-
-  textarea:disbaled {
-    @apply text-white;
-  }
-}
-</style>
+<style lang="scss"></style>
