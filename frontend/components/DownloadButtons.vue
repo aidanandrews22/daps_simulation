@@ -33,7 +33,7 @@ const exportPDF = async () => {
   loadingStatuses.value.pdf = true
 
   const doc = new jsPDF()
-  doc.text('Before and After', 20, 20)
+  doc.text('Before and After', 10, 20)
 
   const fetchImageAsBase64 = async (url) => {
     try {
