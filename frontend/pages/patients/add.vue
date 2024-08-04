@@ -1,7 +1,10 @@
 <script setup>
+import { ref } from 'vue'
 import { useFirestore } from '~/composables/useFirestore'
+import { useRouter } from 'vue-router'
 
 const { addDocument, uploadImage, updateDocument } = useFirestore()
+const router = useRouter()
 
 const patientInfo = ref({
   firstName: '',
@@ -12,12 +15,16 @@ const patientInfo = ref({
 })
 
 const loading = ref(false)
+const showBeforeImageError = ref(false)
 
 const handleBeforeImage = (event) => {
   patientInfo.value.beforeImage = event.target.files[0]
+  showBeforeImageError.value = !patientInfo.value.beforeImage
 }
 
 const addPatient = async () => {
+  if (!validateForm()) return
+
   loading.value = true
   try {
     console.log('Before Image:', patientInfo.value.beforeImage)
@@ -74,8 +81,17 @@ const addPatient = async () => {
     // You might want to add some user feedback here, like showing an error message
   } finally {
     loading.value = false
-    navigateTo('/patients')
+    router.push('/patients')
   }
+}
+
+const validateForm = () => {
+  if (!patientInfo.value.beforeImage) {
+    showBeforeImageError.value = true
+    return false
+  }
+  showBeforeImageError.value = false
+  return true
 }
 </script>
 
@@ -103,9 +119,10 @@ const addPatient = async () => {
         <div>
           <label for="before-image" class="block text-gray-700 font-semibold mb-2">Before Image</label>
           <div class="relative">
-            <input accept="image/*" type="file" id="before-image" @change="handleBeforeImage" class="hidden" :disabled="loading" />
+            <input accept="image/*" type="file" id="before-image" name="beforeImage" @change="handleBeforeImage" class="absolute top-0 left-0 opacity-0" :disabled="loading" required />
             <label :class="{ 'btn-disabled': loading }" for="before-image" class="btn btn-primary py-2">Choose File</label>
             <span v-if="patientInfo.beforeImage" class="ml-3 text-gray-700">{{ patientInfo.beforeImage.name }}</span>
+            <span v-if="showBeforeImageError" class="text-red-500 ml-3">Please select an image.</span>
           </div>
         </div>
         <div>
@@ -129,5 +146,8 @@ const addPatient = async () => {
   margin-top: 10px;
   font-style: italic;
   color: #666;
+}
+.text-red-500 {
+  color: red;
 }
 </style>
