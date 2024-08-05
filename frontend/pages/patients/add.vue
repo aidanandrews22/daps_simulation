@@ -81,7 +81,7 @@ const addPatient = async () => {
     // You might want to add some user feedback here, like showing an error message
   } finally {
     loading.value = false
-    router.push('/patients')
+    router.push('/')
   }
 }
 

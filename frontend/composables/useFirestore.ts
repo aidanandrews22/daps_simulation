@@ -2,11 +2,12 @@ import { collection, getDocs, query, where, doc, getDoc, addDoc, deleteDoc, upda
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 export const useFirestore = () => {
-  const { $fire } = useNuxtApp()
+  const { $firebase } = useNuxtApp()
 
   const getDocuments = async (collectionName, conditions = [], sortByDate = true) => {
     try {
-      const collectionRef = collection($fire.firestore, collectionName)
+      console.log($firebase)
+      const collectionRef = collection($firebase.firestore, collectionName)
       let queryConstraints = [...conditions]
 
       if (sortByDate) {
@@ -24,7 +25,7 @@ export const useFirestore = () => {
 
   const getDocument = async (collectionName, documentId) => {
     try {
-      const docRef = doc($fire.firestore, collectionName, documentId)
+      const docRef = doc($firebase.firestore, collectionName, documentId)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
         return { id: docSnap.id, ...docSnap.data() }
@@ -44,7 +45,7 @@ export const useFirestore = () => {
         ...data,
         createdAt: Timestamp.now(),
       }
-      const docRef = await addDoc(collection($fire.firestore, collectionName), docData)
+      const docRef = await addDoc(collection($firebase.firestore, collectionName), docData)
       return docRef.id
     } catch (error) {
       console.error('Error adding document:', error)
@@ -58,7 +59,7 @@ export const useFirestore = () => {
         ...data,
         createdAt: Timestamp.now(),
       }
-      const docRef = doc($fire.firestore, collectionName, documentId)
+      const docRef = doc($firebase.firestore, collectionName, documentId)
       await updateDoc(docRef, docData)
       return true
     } catch (error) {
@@ -69,7 +70,7 @@ export const useFirestore = () => {
 
   const deleteDocument = async (collectionName, documentId) => {
     try {
-      await deleteDoc(doc($fire.firestore, collectionName, documentId))
+      await deleteDoc(doc($firebase.firestore, collectionName, documentId))
       return true
     } catch (error) {
       console.error('Error deleting document:', error)
@@ -81,7 +82,7 @@ export const useFirestore = () => {
     try {
       console.log('Uploading file:', file)
       console.log('Upload path:', path)
-      const storageRef = ref($fire.storage, path)
+      const storageRef = ref($firebase.storage, path)
       const snapshot = await uploadBytes(storageRef, file)
       console.log('Upload successful:', snapshot)
       const downloadURL = await getDownloadURL(snapshot.ref)
