@@ -2,14 +2,14 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth'
 
 export const useAuth = () => {
-  const { $fire } = useNuxtApp()
+  const { $firebase } = useNuxtApp()
   const user = ref<User | null>(null)
   const isAuthenticated = computed(() => user.value !== null)
 
   const signUp = async (email: string, password: string, role: string) => {
     try {
-      console.log($fire.auth, email, password)
-      const userCredential = await createUserWithEmailAndPassword($fire.auth, email, password)
+      console.log($firebase.auth, email, password)
+      const userCredential = await createUserWithEmailAndPassword($firebase.auth, email, password)
       user.value = { ...userCredential.user, role }
       return user.value
     } catch (error) {
@@ -20,7 +20,7 @@ export const useAuth = () => {
 
   const login = async (email: string, password: string) => {
     try {
-      const userCredential = await signInWithEmailAndPassword($fire.auth, email, password)
+      const userCredential = await signInWithEmailAndPassword($firebase.auth, email, password)
       user.value = userCredential.user
       const role = userCredential.user.displayName
       user.value = { ...userCredential.user, role }
@@ -33,7 +33,7 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      await signOut($fire.auth)
+      await signOut($firebase.auth)
       user.value = null
     } catch (error) {
       console.error('Error logging out:', error)
@@ -41,7 +41,7 @@ export const useAuth = () => {
     }
   }
 
-  onAuthStateChanged($fire.auth, (firebaseUser) => {
+  onAuthStateChanged($firebase.auth, (firebaseUser) => {
     user.value = firebaseUser
   })
 

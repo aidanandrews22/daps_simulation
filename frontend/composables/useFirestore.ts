@@ -4,6 +4,11 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 export const useFirestore = () => {
   const { $firebase } = useNuxtApp()
 
+  if (!$firebase || !$firebase.firestore) {
+    console.error('Firebase is not initialized')
+    throw new Error('Firebase is not initialized')
+  }
+
   const getDocuments = async (collectionName, conditions = [], sortByDate = true) => {
     try {
       console.log($firebase)
