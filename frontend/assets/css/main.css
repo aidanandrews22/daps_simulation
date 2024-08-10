@@ -80,4 +80,23 @@ a {
 }
 .comment-section textarea:disbaled {
   @apply text-white;
+}
+
+.form-container {
+  @apply flex flex-col items-center p-8 mt-10 lg:mt-20 bg-white rounded-lg shadow-xl mx-auto;
+}
+.form-container form {
+  @apply w-full flex flex-col gap-y-4;
+}
+.form-container form .form-label {
+  @apply block text-gray-700 font-semibold mb-2;
+}
+.form-container form .regular-input {
+  @apply w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary;
+}
+.form-container form select.regular-input option {
+  @apply px-3 py-4;
+}
+.form-container form button[type=submit] {
+  @apply w-full btn btn-primary mt-2 disabled:btn-disabled;
 }/*# sourceMappingURL=main.css.map */

@@ -11,7 +11,6 @@ export const useFirestore = () => {
 
   const getDocuments = async (collectionName, conditions = [], sortByDate = true) => {
     try {
-      console.log($firebase)
       const collectionRef = collection($firebase.firestore, collectionName)
       let queryConstraints = [...conditions]
 

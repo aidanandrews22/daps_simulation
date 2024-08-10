@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { useFirestore } from '~/composables/useFirestore'
 
+const { userInfo } = useAuth()
+
 const { getDocuments } = useFirestore()
 const patients = ref([])
 const loading = ref(true)
@@ -28,7 +30,7 @@ watch(loading, () => {
   <div class="page">
     <div class="flex flex-row gap-x-4 items-center">
       <h1>Patients List</h1>
-      <NuxtLink class="btn-primary btn" to="/patients/add">
+      <NuxtLink v-if="userInfo.role == 'surgeon'" class="btn-primary btn" to="/patients/add">
         <span>New</span>
       </NuxtLink>
     </div>

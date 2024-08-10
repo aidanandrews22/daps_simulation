@@ -2,11 +2,15 @@
 import { useFirestore } from '~/composables/useFirestore'
 import { computedBeforeOrAfterImg } from '~/composables/publicVariables'
 
+const { userInfo } = useAuth()
+
 const route = useRoute()
 const { getDocument, updateDocument, uploadImage } = useFirestore()
 const patient = ref({})
 const patientLoading = ref(true)
 const uploadFileIsLoading = ref(false)
+
+const allowedRoles = ['surgeon', 'designer']
 
 onMounted(async () => {
   scrollToTop()
@@ -74,7 +78,7 @@ const changeImgAndSaveToDb = async (payload) => {
 
 <template>
   <div class="page">
-    <GoBackButton />
+    <GoBackButton v-if="allowedRoles.includes(userInfo.role)" />
 
     <LoadingStatus v-if="patientLoading" />
 
@@ -83,11 +87,11 @@ const changeImgAndSaveToDb = async (payload) => {
       <div class="image-container-wrapper">
         <div class="before-container border-black border-0.5 border-r-solid;">
           <img :src="computedBeforeOrAfterImg(patient.beforeImg, 'before')" alt="Before" />
-          <CustomFileUpload @filePassToParent="changeImgAndSaveToDb" imgType="before" class="file-upload" :isLoading="uploadFileIsLoading" />
+          <CustomFileUpload v-if="userInfo.role == 'surgeon'" @filePassToParent="changeImgAndSaveToDb" imgType="before" class="file-upload" :isLoading="uploadFileIsLoading" />
         </div>
         <div class="after-container">
           <img :src="computedBeforeOrAfterImg(patient.afterImg, 'after')" alt="After" />
-          <CustomFileUpload @filePassToParent="changeImgAndSaveToDb" imgType="after" class="file-upload" :isLoading="uploadFileIsLoading" />
+          <CustomFileUpload v-if="userInfo.role == 'designer'" @filePassToParent="changeImgAndSaveToDb" imgType="after" class="file-upload" :isLoading="uploadFileIsLoading" />
         </div>
       </div>
       <div class="before-after-text">
@@ -97,7 +101,7 @@ const changeImgAndSaveToDb = async (payload) => {
 
       <DownloadButtons :uploadFileIsLoading="uploadFileIsLoading" :beforeImgUrl="patient.beforeImg" :afterImgUrl="patient.afterImg" />
 
-      <CommentSection :patient="patient" />
+      <CommentSection v-if="allowedRoles.includes(userInfo.role)" :patient="patient" />
     </div>
   </div>
 </template>

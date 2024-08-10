@@ -2,6 +2,8 @@
 import { ref, watch, onMounted, nextTick, computed } from 'vue'
 import { useFirestore } from '~/composables/useFirestore'
 
+const { userInfo } = useAuth()
+
 const props = defineProps({
   patient: {
     type: Object,
@@ -84,8 +86,8 @@ const saveComment = async () => {
   <div>
     <div class="comment-section mt-8">
       <h2 class="text-xl font-bold mb-2">Patient Notes</h2>
-      <textarea :disabled="commentLoading" v-model="dynamicComment" ref="notesRef" placeholder="Enter notes about the patient here..."></textarea>
-      <div v-if="!isInAddPatientPage" class="mt-2 flex gap-x-4">
+      <textarea :disabled="commentLoading || userInfo.role == 'designer'" v-model="dynamicComment" ref="notesRef" placeholder="Enter notes about the patient here..."></textarea>
+      <div v-if="!isInAddPatientPage && userInfo.role == 'surgeon'" class="mt-2 flex gap-x-4">
         <button v-if="commentLoading" class="btn-disabled btn-primary btn btn-icon" disabled>
           <span>Saving</span>
           <div class="i-mdi-loading animate-spin"></div>
