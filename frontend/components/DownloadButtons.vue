@@ -134,7 +134,7 @@ const downloadImage = async (imageUrl, filetype) => {
 <template>
   <div>
     <div class="flex justify-center mt-4 gap-x-2">
-      <button v-if="loadingStatuses.pdf" class="btn btn-primary btn-icon btn-disabled" disabled>
+      <button v-if="loadingStatuses.pdf" class="btn btn-primary btn-icon btn-disabled rounded" disabled>
         <span>PDF exporting</span>
         <div class="i-mdi-loading animate-spin"></div>
       </button>
@@ -142,10 +142,10 @@ const downloadImage = async (imageUrl, filetype) => {
         v-if="(loadingStatuses.pdf == false) & (beforeImgUrl != null) & (afterImgUrl != null)"
         :disabled="uploadFileIsLoading || loadingStatuses.beforeImg || loadingStatuses.afterImg || loadingStatuses.pdf"
         @click="exportPDF"
-        class="btn btn-primary disabled:btn-disabled">
+        class="btn btn-primary disabled:btn-disabled rounded">
         PDF export
       </button>
-      <button v-if="loadingStatuses.beforeImg" class="btn btn-primary btn-icon btn-disabled" disabled>
+      <button v-if="loadingStatuses.beforeImg" class="btn btn-primary btn-icon btn-disabled rounded" disabled>
         <span>Raw image downloading (before)</span>
         <div class="i-mdi-loading animate-spin"></div>
       </button>
@@ -153,10 +153,10 @@ const downloadImage = async (imageUrl, filetype) => {
         v-if="loadingStatuses.beforeImg == false && beforeImgUrl"
         :disabled="uploadFileIsLoading || loadingStatuses.beforeImg || loadingStatuses.afterImg || loadingStatuses.pdf"
         @click="downloadImage(beforeImgUrl, 'before')"
-        class="btn btn-primary disabled:btn-disabled">
+        class="btn btn-primary disabled:btn-disabled rounded">
         Raw image download (before)
       </button>
-      <button v-if="loadingStatuses.afterImg" class="btn btn-primary btn-icon btn-disabled" disabled>
+      <button v-if="loadingStatuses.afterImg" class="btn btn-primary btn-icon btn-disabled rounded" disabled>
         <span>Raw image downloading (after)</span>
         <div class="i-mdi-loading animate-spin"></div>
       </button>
@@ -164,7 +164,7 @@ const downloadImage = async (imageUrl, filetype) => {
         v-if="loadingStatuses.afterImg == false && afterImgUrl"
         :disabled="uploadFileIsLoading || loadingStatuses.beforeImg || loadingStatuses.afterImg || loadingStatuses.pdf"
         @click="downloadImage(afterImgUrl, 'after')"
-        class="btn btn-primary disabled:btn-disabled">
+        class="btn btn-primary disabled:btn-disabled rounded">
         Raw image download (after)
       </button>
     </div>

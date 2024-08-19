@@ -2,8 +2,10 @@
 import { ref } from 'vue'
 import { useFirestore } from '~/composables/useFirestore'
 import { useRouter } from 'vue-router'
+import { useAuth } from '~/composables/useAuth'
 
 const { addDocument, uploadImage, updateDocument } = useFirestore()
+const { createPatientAccount, user } = useAuth()
 const router = useRouter()
 
 const patientInfo = ref({
@@ -16,10 +18,15 @@ const patientInfo = ref({
 
 const loading = ref(false)
 const showBeforeImageError = ref(false)
+const temporaryPassword = ref('')
 
 const handleBeforeImage = (event) => {
   patientInfo.value.beforeImage = event.target.files[0]
   showBeforeImageError.value = !patientInfo.value.beforeImage
+}
+
+const handleAfterImage = (event) => {
+  patientInfo.value.afterImage = event.target.files[0]
 }
 
 const addPatient = async () => {
@@ -35,9 +42,10 @@ const addPatient = async () => {
 
     // First, add the patient document to get the ID
     const patientData = {
-      firstName: patientInfo.value.firstName,
-      lastName: patientInfo.value.lastName,
+      firstName: patientInfo.value.firstName.toLowerCase(),
+      lastName: patientInfo.value.lastName.toLowerCase(),
       comment: patientInfo.value.comment,
+      accountCreated: false,
     }
 
     console.log('Initial Patient Data:', patientData)
@@ -51,6 +59,12 @@ const addPatient = async () => {
       console.log('Uploading before image...')
       beforeImgURL = await uploadImage(patientInfo.value.beforeImage, `patients/${docId}/before.jpg`)
       console.log('Before Image URL:', beforeImgURL)
+    }
+
+    if (patientInfo.value.afterImage) {
+      console.log('Uploading after image...')
+      afterImgURL = await uploadImage(patientInfo.value.afterImage, `patients/${docId}/after.jpg`)
+      console.log('After Image URL:', afterImgURL)
     }
 
     // Update the patient document with image URLs
@@ -69,19 +83,21 @@ const addPatient = async () => {
       console.error('Failed to update patient document with image URLs')
     }
 
-    // Reset form
-    patientInfo.value.firstName = ''
-    patientInfo.value.lastName = ''
-    patientInfo.value.beforeImage = null
-    patientInfo.value.afterImage = null
-    patientInfo.value.comment = ''
-    // You might want to add some user feedback here, like showing a success message
+    // If both before and after images are uploaded, create patient account
+    if (beforeImgURL && afterImgURL) {
+      temporaryPassword.value = await createPatientAccount(docId)
+    }
+
+    // Show success message with temporary password
+    alert(`Patient added successfully!`)
+
+    // Navigate back to the patient list
+    router.push('/')
   } catch (error) {
     console.error('Error adding patient:', error)
-    // You might want to add some user feedback here, like showing an error message
+    alert('Error adding patient. Please try again.')
   } finally {
     loading.value = false
-    router.push('/')
   }
 }
 
@@ -120,6 +136,14 @@ const validateForm = () => {
           </div>
         </div>
         <div>
+          <label for="after-image" class="form-label">After Image</label>
+          <div class="relative">
+            <input accept="image/*" type="file" id="after-image" name="afterImage" @change="handleAfterImage" class="absolute top-0 left-0 opacity-0" :disabled="loading" />
+            <label :class="{ 'btn-disabled': loading }" for="after-image" class="btn btn-primary py-2">Choose File</label>
+            <span v-if="patientInfo.afterImage" class="ml-3 text-gray-700">{{ patientInfo.afterImage.name }}</span>
+          </div>
+        </div>
+        <div>
           <CommentSection :patient="patientInfo" isInAddPatientPage="true" />
         </div>
         <button :disabled="loading" type="submit">
@@ -131,6 +155,11 @@ const validateForm = () => {
           </div>
         </button>
       </form>
+      <div v-if="temporaryPassword" class="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <p>Patient account created successfully!</p>
+        <p>Temporary password: {{ temporaryPassword }}</p>
+        <p>Please provide this password to the patient along with their full name for login.</p>
+      </div>
     </div>
   </div>
 </template>

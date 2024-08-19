@@ -2,14 +2,19 @@
 import { ref } from 'vue'
 import { useAuth } from '~/composables/useAuth'
 
-const { login, signUp, isAuthenticated, errorMessage, isLoading } = useAuth()
+const { loginWithName, signUp, isAuthenticated, errorMessage, isLoading, completePatientSignUp } = useAuth()
 
 const isLogin = ref(true)
+const firstName = ref('')
+const lastName = ref('')
 const email = ref('')
 const password = ref('')
 const role = ref('')
-const name = ref('')
-const surname = ref('')
+
+const isPatientFirstLogin = ref(false)
+const newEmail = ref('')
+const newPassword = ref('')
+const confirmPassword = ref('')
 
 // Redirect authenticated users away from the auth page
 watchEffect(() => {
@@ -18,25 +23,49 @@ watchEffect(() => {
   }
 })
 
-// Add the missing toggleAuthMode function
 const toggleAuthMode = () => {
   isLogin.value = !isLogin.value
-  // Reset form fields when toggling
+  isPatientFirstLogin.value = false
+  resetForm()
+}
+
+const resetForm = () => {
+  firstName.value = ''
+  lastName.value = ''
   email.value = ''
   password.value = ''
   role.value = ''
-  name.value = ''
-  surname.value = ''
+  newEmail.value = ''
+  newPassword.value = ''
+  confirmPassword.value = ''
+  errorMessage.value = null
 }
 
 const handleSubmit = async () => {
   try {
     if (isLogin.value) {
-      await login(email.value, password.value)
+      const user = await loginWithName(firstName.value, lastName.value, password.value)
+      if (user.isTemporaryPassword) {
+        isPatientFirstLogin.value = true
+      } else {
+        navigateTo('/')
+      }
     } else {
-      await signUp(email.value, password.value, role.value, name.value, surname.value)
+      await signUp(email.value, password.value, role.value, firstName.value, lastName.value)
+      navigateTo('/')
     }
-    // Redirect to home page or dashboard
+  } catch (err) {
+    console.error('error', err)
+  }
+}
+
+const handleCompleteSignUp = async () => {
+  if (newPassword.value !== confirmPassword.value) {
+    errorMessage.value = "Passwords don't match"
+    return
+  }
+  try {
+    await completePatientSignUp(newEmail.value, newPassword.value)
     navigateTo('/')
   } catch (err) {
     console.error('error', err)
@@ -47,28 +76,43 @@ const handleSubmit = async () => {
 <template>
   <div class="page max-w-4xl">
     <div class="form-container">
-      <h1>{{ isLogin ? 'Login' : 'Sign Up' }}</h1>
-      <button @click="toggleAuthMode" class="btn btn-primary mt-2 mb-4">
-        {{ isLogin ? 'Need an account? Sign Up' : 'Already have an account? Login' }}
-      </button>
-      <form @submit.prevent="handleSubmit">
-        <input class="regular-input" v-model="email" type="email" placeholder="Email" required />
-        <input class="regular-input" v-model="password" type="password" placeholder="Password" required />
-        <template v-if="!isLogin">
-          <input class="regular-input" v-model="name" type="text" placeholder="Name" required />
-          <input class="regular-input" v-model="surname" type="text" placeholder="Surname" required />
-          <select class="regular-input" v-model="role" required>
-            <option value="surgeon">Surgeon</option>
-            <option value="designer">Designer</option>
-            <option value="patient">Patient</option>
-          </select>
-        </template>
-        <button type="submit" v-if="isLogin && !isLoading">Login</button>
-        <button type="submit" v-if="isLogin && isLoading" disabled>Logging in...</button>
-        <button type="submit" v-if="!isLogin && !isLoading">Sign up</button>
-        <button type="submit" v-if="!isLogin && isLoading" disabled>Signing up...</button>
-        <p v-if="errorMessage" class="text-red-5">{{ errorMessage }}</p>
-      </form>
+      <template v-if="!isPatientFirstLogin">
+        <h1 class="text-2xl font-bold mb-6">{{ isLogin ? 'Login' : 'Sign Up' }}</h1>
+        <button @click="toggleAuthMode" class="btn btn-primary mt-2 mb-4 rounded">
+          {{ isLogin ? 'Need an account? Sign Up' : 'Already have an account? Login' }}
+        </button>
+        <form @submit.prevent="handleSubmit">
+          <input class="regular-input" v-model="firstName" type="text" placeholder="First Name" required />
+          <input class="regular-input" v-model="lastName" type="text" placeholder="Last Name" required />
+          <template v-if="!isLogin">
+            <input class="regular-input" v-model="email" type="email" placeholder="Email" required />
+            <select class="regular-input" v-model="role" required>
+              <option value="">Select Role</option>
+              <option value="surgeon">Surgeon</option>
+              <option value="designer">Designer</option>
+            </select>
+          </template>
+          <input class="regular-input" v-model="password" type="password" placeholder="Password" required />
+          <button type="submit" class="rounded" :disabled="isLoading">
+            {{ isLoading ? (isLogin ? 'Logging in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up') }}
+          </button>
+        </form>
+      </template>
+      
+      <template v-else>
+        <h1 class="text-2xl font-bold mb-6">Complete Your Registration</h1>
+        <p class="mb-4">Please provide an email and create a new password for your account.</p>
+        <form @submit.prevent="handleCompleteSignUp">
+          <input class="regular-input" v-model="newEmail" type="email" placeholder="Email" required />
+          <input class="regular-input" v-model="newPassword" type="password" placeholder="New Password" required />
+          <input class="regular-input" v-model="confirmPassword" type="password" placeholder="Confirm New Password" required />
+          <button type="submit" :disabled="isLoading">
+            {{ isLoading ? 'Completing Registration...' : 'Complete Registration' }}
+          </button>
+        </form>
+      </template>
+      
+      <p v-if="errorMessage" class="text-red-5 mt-2">{{ errorMessage }}</p>
     </div>
   </div>
 </template>

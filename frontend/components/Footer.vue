@@ -46,9 +46,9 @@ function initMap() {
         <img src="@/assets/img/footer-logo.png" />
         <div>
           <h1 class="text-2xl" style="font-family: Montserrat-Regular-SemiBold">AVERAGE RATING</h1>
-          <div class="flex justify-center lg:justify-start space-x-1 text-yellow-400 text-3xl">
-            <span class="star" v-for="i in 5" :key="i">&#9733;</span>
-            <span class="text-black font-700 text-2xl">4.8</span>
+          <div class="flex justify-center lg:justify-start items-center space-x-1">
+            <span class="text-black font-700 text-2xl ml-1">4.8</span>
+            <div v-for="i in 5" :key="i" class="i-mdi-star text-yellow-400 text-2xl"></div>
           </div>
           <div class="flex justify-center lg:justify-start gap-2">
             <div class="i-mdi-wechat text-blue text-3xl"></div>
@@ -93,13 +93,11 @@ function initMap() {
       <div class="info-card absolute top-2 left-2 bg-white shadow-lg p-4 rounded-lg z-10">
         <h2 class="text-lg font-bold">Dr. Andrews Plastic Surgery</h2>
         <p>1100 5th St #210, Coralville, IA 52241</p>
-        <p class="text-lg font-semibold flex items-center">
-          4.8
-          <span class="text-yellow-400 text-xl ml-1">
-            <span v-for="i in 5" :key="i">&#9733;</span>
-          </span>
-          <span class="ml-2 text-sm text-blue-500">(333 reviews)</span>
-        </p>
+        <div class="flex lg:justify-start items-center space-x-1">
+          <span class="text-black font-700 text-lg ml-1">4.8</span>
+          <div v-for="i in 5" :key="i" class="i-mdi-star text-yellow-400 text-2xl"></div>
+          <span class="ml-2 text-sm text-blue-500">(339 reviews)</span>
+        </div>
         <a
           target="blank"
           href="https://www.google.com/maps/dir//Dr.+Andrews+Plastic+Surgery+1100+5th+St+%23210+Coralville,+IA+52241/@41.675113,-91.579521,14z/data=!4m5!4m4!1m0!1m2!1m1!1s0x87e4f74a3779e921:0xcbf6c27b124bc743"
@@ -144,7 +142,7 @@ function initMap() {
 
     <!-- Contact Us Fixed Button -->
     <a
-      class="flex lg:hidden position-fixed bottom-0 w-full justify-between items-center bg-[#CCB379] text-white text-md font-600 py-3"
+      class="flex lg:hidden position-fixed bottom-0 w-full justify-between items-center bg-[#CCB379] text-white text-md rounded font-600 py-3 z-500"
       href="https://www.drandrewsplasticsurgery.com/contact-us/"
       target="_blank">
       <span class="flex-1 text-center">CONTACT US</span>

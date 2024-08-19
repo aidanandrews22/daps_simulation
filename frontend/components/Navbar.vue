@@ -1,21 +1,5 @@
-<script setup lang="ts">
-import { useAuth } from '~/composables/useAuth'
-
-const { isAuthenticated, userInfo, logout, updateUserInfo } = useAuth()
-
-// Force an update of user info when the component mounts
-onMounted(async () => {
-  await updateUserInfo()
-})
-
-const handleLogout = async () => {
-  await logout()
-  navigateTo('/auth')
-}
-</script>
-
 <template>
-  <div class="position-fixed z-99 w-full bg-white" style="box-shadow: #00000063 0px 3px 6px">
+  <div class="position-fixed z-500 w-full bg-white" style="box-shadow: #00000063 0px 3px 6px">
     <nav class="flex justify-between items-center px-10 md:px-16 max-w-6xl mx-auto py-3 pb-1 lg:py-5 lg:pb-1.5">
       <div class="hidden lg:block">
         <NuxtLink to="/"><img src="@/assets/img/logo.png" alt="" /></NuxtLink>
@@ -36,25 +20,30 @@ const handleLogout = async () => {
       <div class="block lg:hidden">
         <a href="#"><img src="@/assets/img/logo.png" /></a>
       </div>
-      <div>
-        <a class="hidden lg:block" href="https://www.drandrewsplasticsurgery. com/contact-us/" target="blank"><button class="btn-primary btn">CONTACT US</button> </a>
-      </div>
-    </nav>
-    <nav class="w-full flex justify-end items-center px-10 md:px-16 max-w-6xl mx-auto pb-4">
-      <div v-if="isAuthenticated" class="flex justify-between items-center gap-x-4">
-        <div v-if="userInfo" class="flex flex-col">
-          <span class="font-bold text-lg">{{ userInfo.name }} {{ userInfo.surname }}</span>
-          <span class="text-sm">{{ userInfo.role[0].toUpperCase() + userInfo.role.slice(1) }}</span>
+      <div class="flex items-center gap-x-4">
+        <a class="hidden lg:block" href="https://www.drandrewsplasticsurgery.com/contact-us/" target="blank"><button class="btn-primary btn rounded">CONTACT US</button></a>
+        <div v-if="isAuthenticated" class="flex items-center gap-x-4">
+          <div v-if="userInfo" class="flex flex-col items-end">
+            <span class="font-bold text-lg">{{ userInfo.name }} {{ userInfo.surname }}</span>
+            <span class="text-sm">{{ userInfo.role[0].toUpperCase() + userInfo.role.slice(1) }}</span>
+          </div>
+          <button class="btn btn-danger rounded" @click="handleLogout">Logout</button>
         </div>
-        <div v-else class="flex items-center gap-x-2">
-          <span>Loading user</span>
-          <div class="i-eos-icons:bubble-loading"></div>
-        </div>
-        <button class="btn btn-danger" @click="handleLogout">Logout</button>
       </div>
     </nav>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useAuth } from '~/composables/useAuth'
+
+const { isAuthenticated, userInfo, logout } = useAuth()
+
+const handleLogout = async () => {
+  await logout()
+  navigateTo('/auth')
+}
+</script>
 
 <style lang="scss" scoped>
 .phone-location {

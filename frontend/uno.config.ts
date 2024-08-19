@@ -18,6 +18,24 @@ export default defineConfig({
     colors: {
       primary: '#b78d4a',
     },
+    animation: {
+      keyframes: {
+        'fade-out': '{from{opacity:1}to{opacity:0}}',
+        'fade-in': '{from{opacity:0}to{opacity:1}}',
+      },
+      durations: {
+        'fade-out': '2s',
+        'fade-in': '2s',
+      },
+      timingFns: {
+        'fade-out': 'ease-in-out',
+        'fade-in': 'ease-in-out',
+      },
+      counts: {
+        'fade-out': '1',
+        'fade-in': '1',
+      },
+    },
   },
   transformers: [transformerDirectives()],
 })
