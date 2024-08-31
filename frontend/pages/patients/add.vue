@@ -11,6 +11,7 @@ const router = useRouter()
 const patientInfo = ref({
   firstName: '',
   lastName: '',
+  email: '', // Added email field
   beforeImage: null,
   afterImage: null,
   comment: '',
@@ -44,6 +45,7 @@ const addPatient = async () => {
     const patientData = {
       firstName: patientInfo.value.firstName.toLowerCase(),
       lastName: patientInfo.value.lastName.toLowerCase(),
+      email: patientInfo.value.email.toLowerCase(), // Added email
       comment: patientInfo.value.comment,
       accountCreated: false,
     }
@@ -83,10 +85,8 @@ const addPatient = async () => {
       console.error('Failed to update patient document with image URLs')
     }
 
-    // If both before and after images are uploaded, create patient account
-    if (beforeImgURL && afterImgURL) {
-      temporaryPassword.value = await createPatientAccount(docId)
-    }
+    // Create patient account
+    temporaryPassword.value = await createPatientAccount(docId, patientInfo.value.email)
 
     // Show success message with temporary password
     alert(`Patient added successfully!`)
@@ -127,6 +127,10 @@ const validateForm = () => {
           <input required :disabled="loading" type="text" id="last-name" v-model="patientInfo.lastName" class="regular-input" />
         </div>
         <div>
+          <label for="email" class="form-label">Email</label>
+          <input required :disabled="loading" type="email" id="email" v-model="patientInfo.email" class="regular-input" />
+        </div>
+        <div>
           <label for="before-image" class="form-label">Before Image</label>
           <div class="relative">
             <input accept="image/*" type="file" id="before-image" name="beforeImage" @change="handleBeforeImage" class="absolute top-0 left-0 opacity-0" :disabled="loading" required />
@@ -158,7 +162,7 @@ const validateForm = () => {
       <div v-if="temporaryPassword" class="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
         <p>Patient account created successfully!</p>
         <p>Temporary password: {{ temporaryPassword }}</p>
-        <p>Please provide this password to the patient along with their full name for login.</p>
+        <p>Please provide this password to the patient along with their email for login.</p>
       </div>
     </div>
   </div>

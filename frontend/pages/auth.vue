@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useAuth } from '~/composables/useAuth'
 
-const { loginWithName, signUp, isAuthenticated, errorMessage, isLoading, completePatientSignUp } = useAuth()
+const { login, signUp, isAuthenticated, errorMessage, isLoading, completePatientSignUp } = useAuth()
 
 const isLogin = ref(true)
 const firstName = ref('')
@@ -44,12 +44,8 @@ const resetForm = () => {
 const handleSubmit = async () => {
   try {
     if (isLogin.value) {
-      const user = await loginWithName(firstName.value, lastName.value, password.value)
-      if (user.isTemporaryPassword) {
-        isPatientFirstLogin.value = true
-      } else {
-        navigateTo('/')
-      }
+      await login(email.value, password.value)
+      navigateTo('/')
     } else {
       await signUp(email.value, password.value, role.value, firstName.value, lastName.value)
       navigateTo('/')
@@ -82,10 +78,10 @@ const handleCompleteSignUp = async () => {
           {{ isLogin ? 'Need an account? Sign Up' : 'Already have an account? Login' }}
         </button>
         <form @submit.prevent="handleSubmit">
-          <input class="regular-input" v-model="firstName" type="text" placeholder="First Name" required />
-          <input class="regular-input" v-model="lastName" type="text" placeholder="Last Name" required />
+          <input v-if="!isLogin" class="regular-input" v-model="firstName" type="text" placeholder="First Name" required />
+          <input v-if="!isLogin" class="regular-input" v-model="lastName" type="text" placeholder="Last Name" required />
+          <input class="regular-input" v-model="email" type="email" placeholder="Email" required />
           <template v-if="!isLogin">
-            <input class="regular-input" v-model="email" type="email" placeholder="Email" required />
             <select class="regular-input" v-model="role" required>
               <option value="">Select Role</option>
               <option value="surgeon">Surgeon</option>
